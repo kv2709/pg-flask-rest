@@ -1,6 +1,6 @@
 import json
 import datetime
-from flask import Flask, flash, g, redirect, render_template, request, url_for
+from flask import Flask, flash, g, redirect, render_template, request, url_for, request
 from werkzeug.exceptions import abort
 from flask_restful import Resource, Api
 
@@ -57,6 +57,54 @@ def get_author_on_id(user_id):
     cur.close()
     conn.close()
     return json_response(json.dumps(author_dic))
+
+
+@app.route("/api/<name>/author")
+def get_author_on_name(name):
+    '''
+    По запросу GET с username автора найти его в базе и вернуть словарь с данными
+    :param name bp ГКД
+    :return:
+    '''
+    conn = get_conn_db()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM author WHERE username = %s", (name,))
+    auth_cur = cur.fetchone()
+    if auth_cur is not None:
+        author_dic = tp_to_dict(auth_cur, cur)
+        return json_response(json.dumps(author_dic))
+    cur.close()
+    conn.commit()
+    conn.close()
+    return json_response(json.dumps({"username": "Not_Found"}))
+
+
+@app.route("/api/author_new", methods=['POST'])
+def insert_author():
+    '''
+        Запросом POST принимаем параметры для нового пользователя
+        из request.json и добавляем его в базу
+    '''
+    rec = request.json
+    username = rec["username"]
+    password_hash = rec["password_hash"]
+    print(username)
+    print(password_hash)
+    conn = get_conn_db()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO author (username, password) VALUES (%s, %s)",
+        (username, password_hash),
+    )
+
+    cur.close()
+    conn.commit()
+    conn.close()
+
+    return json_response(json.dumps({"code_error": "Add"}))
+
+
+
 
 
 # def get_post(id, check_author=True):
