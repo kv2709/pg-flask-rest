@@ -16,8 +16,8 @@ def convert_dt(o):
         return o.__str__()
 
 
-@app.route("/api/posts")
-def posts_list():
+@app.route("/api/posts/")
+def get_posts():
     '''
         Возвращает все записи базы на запром к УРЛу "/"
         в json.damp изменена выдача datetime на строчное представлние
@@ -42,8 +42,54 @@ def posts_list():
     return json_response(json.dumps(tp_bd, default=convert_dt))
 
 
-@app.route("/api/<int:user_id>/author")
-def get_author_on_id(user_id):
+@app.route("/api/posts/<int:id>")
+def get_post_id():
+    '''
+        Возвращает пост на запром к УРЛу "/posts/<int:id>"
+        в json.damp
+        :return: json с одной записью
+    '''
+    conn = get_conn_db()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT post.id, title, body, created, author_id, username"
+        " FROM post  JOIN author ON post.author_id = author.id"
+        " WHERE post.id = %s",
+        (id,),
+    )
+    cur_post = cur.fetchone()
+    post = tp_to_dict(cur_post, cur)
+    cur.close()
+    conn.commit()
+    conn.close()
+
+    return json_response(json.dumps(post, default=convert_dt))
+
+
+@app.route("/api/posts/", methods=['POST'])
+def create_post():
+    '''
+
+    '''
+    req = request.json
+    title = req["title"]
+    body = req["body"]
+    author_id = req["author_id"]
+    conn = get_conn_db()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO post (title, body, author_id)" " VALUES (%s, %s, %s)",
+        (title, body, author_id),
+    )
+    cur.close()
+    conn.commit()
+    conn.close()
+
+    return json_response(json.dumps({"code_error": "Created_new_post"}))
+
+
+@app.route("/api/author/<int:user_id>")
+def get_author_id(user_id):
     '''
     По запросу GET с user_id автора найти его в базе и вернуть словарь с данными
     :param user_id:
@@ -59,11 +105,11 @@ def get_author_on_id(user_id):
     return json_response(json.dumps(author_dic))
 
 
-@app.route("/api/<name>/author")
-def get_author_on_name(name):
+@app.route("/api/author/<name>")
+def get_author_name(name):
     '''
     По запросу GET с username автора найти его в базе и вернуть словарь с данными
-    :param name bp ГКД
+    :param name
     :return:
     '''
     conn = get_conn_db()
@@ -79,29 +125,26 @@ def get_author_on_name(name):
     return json_response(json.dumps({"username": "Not_Found"}))
 
 
-@app.route("/api/author_new", methods=['POST'])
-def insert_author():
+@app.route("/api/author/", methods=['POST'])
+def create_author():
     '''
         Запросом POST принимаем параметры для нового пользователя
         из request.json и добавляем его в базу
     '''
-    rec = request.json
-    username = rec["username"]
-    password_hash = rec["password_hash"]
-    print(username)
-    print(password_hash)
+    req = request.json
+    username = req["username"]
+    password_hash = req["password_hash"]
     conn = get_conn_db()
     cur = conn.cursor()
     cur.execute(
         "INSERT INTO author (username, password) VALUES (%s, %s)",
         (username, password_hash),
     )
-
     cur.close()
     conn.commit()
     conn.close()
 
-    return json_response(json.dumps({"code_error": "Add"}))
+    return json_response(json.dumps({"code_error": "Created_new_author"}))
 
 
 
