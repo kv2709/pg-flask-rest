@@ -118,6 +118,25 @@ def update_post(post_id):
     return json_response(json.dumps({"code_error": "Updated_post"}))
 
 
+@app.route("/api/posts/<int:post_id>", methods=['DELETE'])
+def udelete_post(post_id):
+    """
+    Удаляет в БД измененный  пост с номером post_id
+    :param post_id:
+    :return:
+    """
+    conn = get_conn_db()
+    cur = conn.cursor()
+    cur.execute(
+        "DELETE FROM post WHERE id = %s", (post_id,)
+    )
+    cur.close()
+    conn.commit()
+    conn.close()
+    #
+    return json_response(json.dumps({"code_error": "Deleted_post"}))
+
+
 @app.route("/api/author/<int:author_id>")
 def get_author_id(author_id):
     """
