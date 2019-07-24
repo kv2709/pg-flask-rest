@@ -17,6 +17,32 @@ def convert_dt(o):
         return o.__str__()
 
 
+@app.route('/')
+def index_page():
+    title_dic = {"title_text": "REST-Full API для WEB блога на Flask"}
+    return '''
+        <html>
+            <head>
+                <title>''' + title_dic["title_text"] + '''</title>
+            <style>
+               #cmd {
+                    font-family: 'Times New Roman', Times, serif; 
+                    font-size: 110%;
+                    font-style: italic; 
+                    color: navy;
+               }
+            </style>
+
+            </head>
+            <body>
+                <h1>
+                    RESTful API для доступа к БД Postgres 
+                    Исходники проекта на Github             
+                </h1>
+            </body>
+        </html>'''
+
+
 @app.route("/api/posts/")
 def get_posts():
     """
