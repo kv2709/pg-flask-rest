@@ -35,10 +35,10 @@ def index_page():
 
             </head>
             <body>
-                <h1>
-                    RESTful API для доступа к БД Postgres 
+                <h2>
+                    REST-Full Flask API доступа к БД Postgres для WEB блога на Flask <br>
                     Исходники проекта на Github             
-                </h1>
+                </h2>
             </body>
         </html>'''
 
