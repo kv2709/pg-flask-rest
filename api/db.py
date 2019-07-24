@@ -49,8 +49,6 @@ def get_conn_db():
     port_num = '5432'
     conn = connect(dbname=db_name, user=user_name, host=host_name, password=passwd, port=port_num)
 
-    # conn = connect(dbname='test_bd', user='usr_bd', host='127.0.0.1', password='usr_pwd', port='5432')
-
     return conn
 
 

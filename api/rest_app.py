@@ -4,7 +4,6 @@ from flask import Flask, request
 from api.db import list_tp_to_list_dict, tp_to_dict, get_conn_db
 from api.utils import json_response
 
-# Надо АПИ и обЪявление и добавдение ресурса или не надо, пока не понятно!!!!
 app = Flask(__name__)
 
 
