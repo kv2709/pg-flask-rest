@@ -37,9 +37,18 @@ def index_page():
             <body>
                 <h2>
                     REST-Full Flask API доступа к БД Postgres для WEB блога на Flask <br>
-                    Исходники проекта на Github             
-                </h2>
-            </body>
+                    Используются следующие URL:</h2><br>
+                    <h3>/api/posts/ - возвращает все посты всех авторов</h3><br>
+                    <h3>/api/posts/post_id - возвращает пост с номером post_id</h3><br>
+                    <h3>/api/posts/ methods 'POST' - добавляет в БД новый пост текущего автора</h3><br>
+                    <h3>/api/posts/post_id methods 'PUT' - обновляет пост с номером post_id</h3><br>
+                    <h3>/api/posts/post_id  methods DELETE - удаляет пост с номером post_id</h3><br>
+                    <h3>/api/author/author_id - возвращает данные атора с номером author_id</h3><br>
+                    <h3>/api/author/name - возвращает данные автора с именем name</h3><br>
+                    <h3>/api/author/ methods POST - создает нового автора</h3><br> 
+                              
+                
+            </body> 
         </html>'''
 
 
@@ -220,3 +229,14 @@ def create_author():
 
     return json_response(json.dumps({"code_error": "Created_new_author"}))
 
+# "/api/posts/"
+# "/api/posts/<int:post_id>"
+# "/api/posts/", methods=['POST']
+# "/api/posts/<int:post_id>", methods=['PUT']
+# "/api/posts/<int:post_id>", methods=['DELETE']
+# "/api/author/<int:author_id>"
+# "/api/author/<name>"
+# "/api/author/", methods=['POST']
+#
+#
+#
