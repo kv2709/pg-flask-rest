@@ -38,7 +38,8 @@ def index_page():
                 <h2>
                     REST-Full Flask API доступа к БД Postgres для WEB блога на Flask <br>
                     Используются следующие URL:</h2><br>
-                    <h3>/api/posts/ - возвращает все посты всех авторов</h3><br>
+                    <h3><a href="https://pg-flask-rest.herokuapp.com/api/posts/">/api/posts/ - возвращает 
+                    все посты всех авторов </a></h3><br>
                     <h3>/api/posts/post_id - возвращает пост с номером post_id</h3><br>
                     <h3>/api/posts/ methods 'POST' - добавляет в БД новый пост текущего автора</h3><br>
                     <h3>/api/posts/post_id methods 'PUT' - обновляет пост с номером post_id</h3><br>
@@ -47,7 +48,6 @@ def index_page():
                     <h3>/api/author/name - возвращает данные автора с именем name</h3><br>
                     <h3>/api/author/ methods POST - создает нового автора</h3><br> 
                               
-                
             </body> 
         </html>'''
 
