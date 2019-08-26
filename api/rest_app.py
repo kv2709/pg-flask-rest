@@ -47,6 +47,8 @@ def index_page():
                     <h3>/api/author/author_id - возвращает данные атора с номером author_id</h3><br>
                     <h3>/api/author/name - возвращает данные автора с именем name</h3><br>
                     <h3>/api/author/ methods POST - создает нового автора</h3><br> 
+                    
+                    <h3> <a href="https://github.com/kv2709/pg-flask-rest.git"> Исходнки на GitHub </a></h3><br> 
                               
             </body> 
         </html>'''
