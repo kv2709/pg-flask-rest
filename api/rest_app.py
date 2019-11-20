@@ -11,7 +11,7 @@ def convert_dt(o):
     """
     Выдает строковое представление даты из типа datetime.datetime
     :param o:
-    :return:
+    :return: строка с датой
     """
     if isinstance(o, datetime.datetime):
         return o.__str__()
@@ -48,7 +48,7 @@ def index_page():
                     <h3>/api/author/name - возвращает данные автора с именем name</h3><br>
                     <h3>/api/author/ methods POST - создает нового автора</h3><br> 
                     
-                    <h3> <a href="https://github.com/kv2709/pg-flask-rest.git"> Исходнки на GitHub </a></h3><br> 
+                    <h3> <a href="https://github.com/kv2709/pg-flask-rest.git" target="_blank"> Исходнки на GitHub </a></h3><br> 
                               
             </body> 
         </html>'''
