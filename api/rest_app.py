@@ -157,9 +157,9 @@ def update_post(post_id):
 @app.route("/api/posts/<int:post_id>", methods=['DELETE'])
 def delete_post(post_id):
     """
-    Удаляет в БД измененный  пост с номером post_id
+    Удаляет в БД открытый на редактирование пост с номером post_id
     :param post_id:
-    :return:
+    :return: Словарь {"code_error": "Deleted_post"}
     """
     conn = get_conn_db()
     cur = conn.cursor()
@@ -184,18 +184,21 @@ def get_author_id(author_id):
     cur = conn.cursor()
     cur.execute("SELECT * FROM author WHERE id = %s", (author_id,))
     auth_cur = cur.fetchone()
-    author_dic = tp_to_dict(auth_cur, cur)
+    if auth_cur is not None:
+        author_dic = tp_to_dict(auth_cur, cur)
+        return json_response(json.dumps(author_dic))
     cur.close()
     conn.close()
-    return json_response(json.dumps(author_dic))
+    return json_response(json.dumps({"author_id": "Not_Found"}))
 
 
 @app.route("/api/author/<name>")
 def get_author_name(name):
     """
-    По запросу GET с username автора найти его в базе и вернуть словарь с данными
+    По запросу GET с username автора найти его в базе и вернуть
+    словарь с данными
     :param name
-    :return:
+    :return: Dictionary author_dic
     """
     conn = get_conn_db()
     cur = conn.cursor()
@@ -205,7 +208,6 @@ def get_author_name(name):
         author_dic = tp_to_dict(auth_cur, cur)
         return json_response(json.dumps(author_dic))
     cur.close()
-    conn.commit()
     conn.close()
     return json_response(json.dumps({"username": "Not_Found"}))
 
